@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surprise</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(45deg, #1a1a1a, #333);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Dancing Script', cursive;
+            overflow: hidden;
+        }
+
+        .container {
+            perspective: 1000px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .container:before,
+        .container:after {
+            content: '🌹';
+            position: absolute;
+            font-size: 30px;
+            color: #000;
+            text-shadow: 2px 2px 4px rgba(255,0,0,0.3);
+            animation: roseFloat 3s ease-in-out infinite;
+        }
+
+        .container:before {
+            top: -20px;
+            left: -20px;
+            transform: rotate(-45deg);
+        }
+
+        .container:after {
+            bottom: -20px;
+            right: -20px;
+            transform: rotate(45deg);
+        }
+
+        .envelope-wrapper {
+            position: relative;
+            width: 450px;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+        }
+
+        .envelope {
+            position: relative;
+            width: 450px;
+            height: 320px;
+            background: #1a1a1a;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            border-radius: 0 0 20px 20px;
+            border: 1px solid #333;
+        }
+
+        .envelope:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-left: 225px solid transparent;
+            border-right: 225px solid transparent;
+            border-top: 160px solid #2a2a2a;
+            transform-origin: top;
+            transition: all 0.4s ease-in-out;
+            z-index: 3;
+        }
+
+        .letter {
+            position: absolute;
+            width: 410px;
+            height: 280px;
+            background: #fff;
+            top: 20px;
+            left: 20px;
+            transition: all 0.6s ease-in-out;
+            z-index: 2;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            border-radius: 5px;
+            overflow-y: auto;
+        }
+
+        .text {
+            font-size: 15px;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        .text strong {
+            display: block;
+            margin-bottom: 15px;
+            color: #1a1a1a;
+            font-size: 20px;
+        }
+
+        .envelope-wrapper.flap .envelope:before {
+            transform: rotateX(180deg);
+            z-index: 0;
+        }
+
+        .envelope-wrapper.flap .letter {
+            transform: translateY(-100px);
+        }
+
+        .rose-petal {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1000;
+            animation: fallPetal 10s linear infinite;
+            top: -10%;
+        }
+
+        @keyframes fallPetal {
+            0% { 
+                transform: translateY(0) rotate(0deg); 
+                opacity: 1; 
+            }
+            100% { 
+                transform: translateY(100vh) rotate(720deg); 
+                opacity: 0; 
+            }
+        }
+
+        @keyframes roseFloat {
+            0%, 100% { transform: translateY(0) rotate(-45deg); }
+            50% { transform: translateY(-10px) rotate(-45deg); }
+        }
+
+        @media (max-width: 480px) {
+            .envelope-wrapper,
+            .envelope {
+                width: 340px;
+            }
+            
+            .envelope:before {
+                border-left: 170px solid transparent;
+                border-right: 170px solid transparent;
+                border-top: 140px solid #2a2a2a;
+            }
+            
+            .letter {
+                width: 300px;
+                height: 260px;
+                padding: 20px;
+            }
+            
+            .text {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="envelope-wrapper flap">
+            <div class="envelope">
+                <div class="letter">
+                    <div class="text">
+                        <strong>My dear Pyari Bhangi,</strong>
+                        <p>I know pichle kuch dino me hum do kuch jayda hi close aa gye horizontal
+                            magar jo bhi ho raha hai humare bich wo mujhe accha lag raha hai hope
+                            tumhe bhi accha lag raha hoga.I know ki diary likhne me late ho raha hai
+                            magar mera yakin mano time nahi mil pa raha hai, aisa nahi hai ki mai tumhare
+                            kam ko respect nahi deta hun. I respect you and your work.mujhe tumse kuch kehna
+                            hai.Tum wo ho mere liye jo sabse karib hai. tum wo pehli ladki ho jisse mujhe Pyar
+                            karne ka tarika samjhaya hai.Tum wo ho oos ki bund mere liye wo har subah
+                            uss phool ko sundar bana ke chale jati hai, aaj kal mujhe tum har jagah
+                            dikhti ho, pata nahi kya ho raha hai mere sath magar jo bhi ho raha ho raha
+                            hai accha lag raha hai.I love you meri pyari Bhangi.Pata nahi hum aage 
+                            sath rahe ya nah rahe magar jab tak sath hai iss pal ko jite hai.</p>
+                        <strong>I Love you</strong>
+                        <p>Tumhara</p> 
+                        <p>Teli</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const envelope = document.querySelector('.envelope-wrapper');
+        envelope.addEventListener('click', () => {
+            envelope.classList.toggle('flap');
+        });
+
+        // Add petal creation function
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.classList.add('rose-petal');
+            petal.innerHTML = '🌹';
+            petal.style.left = Math.random() * 100 + 'vw'; // Random horizontal position
+            petal.style.fontSize = (Math.random() * 20 + 10) + 'px'; // Random size between 10px and 30px
+            petal.style.opacity = Math.random(); // Random opacity for a more natural effect
+            document.body.appendChild(petal);
+
+            // Remove the petal after it falls
+            setTimeout(() => {
+                petal.remove();
+            }, 10000); // Adjust the time to match the falling animation duration
+        }
+
+        // Create petals at regular intervals
+        setInterval(createPetal, 1000); // Adjust the interval for more or fewer petals
+    </script>
+</body>
+</html>
